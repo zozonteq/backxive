@@ -1,0 +1,15 @@
+{
+  "name": "backxive",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/cli.ts"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "private": true,
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
