@@ -26,15 +26,6 @@ cd backxive
 bun install
 ```
 
-## Configuration
-
-Create a `.env` file in the root directory with the following settings:
-
-```env
-WAYBACK_BASE_URL=https://web.archive.org/web
-TWEETS_DIR=./tweets
-```
-
 ## Usage
 
 ### List Archived Tweets
