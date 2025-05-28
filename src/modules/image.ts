@@ -116,7 +116,7 @@ export class ImageModule extends Downloader {
   private readonly DOWNLOAD_DIR = 'attaches'; // Consider making this configurable
 
   // Type for progress updates
-  public type ImageProcessingProgress = {
+  type ImageProcessingProgress = {
     stage: 'initializing' | 'scanning_files' | 'scan_complete' | 'worker_update' | 'worker_error' | 'summary' | 'complete' | 'error';
     processed?: number; // Files scanned or images processed by workers
     total?: number;     // Total files to scan or total images to download
