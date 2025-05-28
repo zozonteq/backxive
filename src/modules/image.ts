@@ -111,24 +111,24 @@ if (!isMainThread) {
   })();
 }
 
+// Type for progress updates, moved outside the class
+type ImageProcessingProgress = {
+  stage: 'initializing' | 'scanning_files' | 'scan_complete' | 'worker_update' | 'worker_error' | 'summary' | 'complete' | 'error';
+  processed?: number; // Files scanned or images processed by workers
+  total?: number;     // Total files to scan or total images to download
+  message?: string;
+  error?: string;
+  threadId?: number;
+  // Fields for worker results aggregation
+  totalSuccess?: number;
+  totalNotFound?: number;
+  totalError?: number;
+  totalSkipped?: number; // For images already existing
+};
+
 export class ImageModule extends Downloader {
   private readonly NUM_THREADS = 3;
   private readonly DOWNLOAD_DIR = 'attaches'; // Consider making this configurable
-
-  // Type for progress updates
-  type ImageProcessingProgress = {
-    stage: 'initializing' | 'scanning_files' | 'scan_complete' | 'worker_update' | 'worker_error' | 'summary' | 'complete' | 'error';
-    processed?: number; // Files scanned or images processed by workers
-    total?: number;     // Total files to scan or total images to download
-    message?: string;
-    error?: string;
-    threadId?: number;
-    // Fields for worker results aggregation
-    totalSuccess?: number;
-    totalNotFound?: number;
-    totalError?: number;
-    totalSkipped?: number; // For images already existing
-  };
 
 
   // Constructor might not need listFile if processAllImages always scans the directory.
