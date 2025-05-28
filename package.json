@@ -1,12 +1,17 @@
 {
   "name": "backxive",
+  "version": "0.1.0",
+  "main": "dist/gui/main.js",
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run src/cli.ts"
+    "start": "bun run src/cli.ts",
+    "gui": "electron ."
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "@types/electron": "^1.6.12",
+    "bun-types": "latest",
+    "electron": "^36.3.1"
   },
   "private": true,
   "peerDependencies": {

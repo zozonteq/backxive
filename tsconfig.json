@@ -1,18 +1,21 @@
 {
   "compilerOptions": {
     // Environment setup & latest features
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom"], // Added "dom" for browser environment (renderer process)
     "target": "ESNext",
-    "module": "ESNext",
+    "module": "commonjs", // Changed to commonjs for Electron main/preload
     "moduleDetection": "force",
     "jsx": "react-jsx",
     "allowJs": true,
+    "outDir": "./dist", // Added outDir
+    "esModuleInterop": true, // Added for better module interop
+    "resolveJsonModule": true, // Added for importing JSON files
 
-    // Bundler mode
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
-    "noEmit": true,
+    // Module resolution
+    "moduleResolution": "node", // Changed to node for CommonJS
+    // "allowImportingTsExtensions": true, // Kept for now, may need adjustment
+    // "verbatimModuleSyntax": true, // Kept for now, may need adjustment
+    "noEmit": false, // Changed to false to enable compilation
 
     // Best practices
     "strict": true,
@@ -24,5 +27,12 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
-  }
+  },
+  "include": [
+    "src/**/*.ts" // Include all .ts files in src and its subdirectories
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
