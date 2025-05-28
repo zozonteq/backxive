@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "bun run src/cli.ts",
-    "gui": "electron ."
+    "gui": "bun run build && electron .",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/electron": "^1.6.12",
