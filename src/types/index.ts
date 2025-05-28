@@ -52,6 +52,8 @@ export interface ImageDownloadResult {
   success: boolean;
   filename?: string;
   error?: string;
+  skipped?: boolean;
+  not_found?: boolean;
 }
 
 export interface WorkerData {

@@ -26,7 +26,8 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+    "types": ["@types/bun", "bun-types"] // Added types for bun
   },
   "include": [
     "src/**/*.ts" // Include all .ts files in src and its subdirectories

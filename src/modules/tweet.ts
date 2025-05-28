@@ -30,11 +30,13 @@ export class TweetModule extends Downloader {
       if (!data.data || !data.data.id || !data.data.author_id) {
         return { success: false, error: `Invalid tweet data structure for ${item[1]}` };
       }
-      const tweet = data.data as Tweet; // Consider more specific typing or validation
+      // data.data directly corresponds to the 'data' part of the Tweet interface
+      const tweetPayload: Tweet['data'] = data.data; 
       
-      // Use the provided username to construct the path, ensuring it's part of the tweet data or passed correctly
-      const filePath = getTweetPath(date, tweet.id, usernameForPath); // tweet.author_id might be the actual user, ensure consistency
+      // Use the provided username to construct the path
+      const filePath = getTweetPath(date, tweetPayload.id, usernameForPath);
       
+      // Save the entire original data structure fetched, which includes 'data', 'includes', etc.
       await Bun.write(filePath, JSON.stringify(data, null, 2));
       
       return { success: true, path: filePath };
@@ -79,14 +81,28 @@ export class TweetModule extends Downloader {
 
     for (let i = 0; i < totalItems; i++) {
       const item = items[i];
-      const result = await this.processTweet(item, username); // Pass username
-      
-      if (result.success) {
-        successes++;
-        onProgress?.({ processed: i + 1, total: totalItems, currentItem: item[1], success: true, path: result.path });
+
+      // Check if item is valid and is a [string, string] tuple
+      if (item && item.length === 2 && typeof item[0] === 'string' && typeof item[1] === 'string') {
+        const result = await this.processTweet(item, username); // Pass username
+        
+        if (result.success) {
+          successes++;
+          onProgress?.({ processed: i + 1, total: totalItems, currentItem: item[1], success: true, path: result.path });
+        } else {
+          failures++;
+          onProgress?.({ processed: i + 1, total: totalItems, currentItem: item[1], success: false, error: result.error });
+        }
       } else {
+        // Handle invalid/undefined item
         failures++;
-        onProgress?.({ processed: i + 1, total: totalItems, currentItem: item[1], success: false, error: result.error });
+        onProgress?.({
+          processed: i + 1,
+          total: totalItems,
+          currentItem: 'Invalid/Malformed item data', // More descriptive
+          success: false,
+          error: 'Skipped invalid or malformed item in list file.'
+        });
       }
     }
 

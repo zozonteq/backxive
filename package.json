@@ -10,6 +10,7 @@
     "build": "tsc"
   },
   "devDependencies": {
+    "@types/bun": "^1.2.14",
     "@types/electron": "^1.6.12",
     "bun-types": "latest",
     "electron": "^36.3.1"

@@ -11,7 +11,7 @@ Usage: bun run start <SUB_COMMAND> <OPTIONS>
 
 Subcommands:
   list <username>    Generate tweet list for a user
-  download <list_file> Download tweets from a list file
+  download <list_file> <username> Download tweets from a list file for a user
   image <username>  Download images for a user
   `);
 }
@@ -39,12 +39,22 @@ async function main() {
       }
       case 'download': {
         const listFile = args[1];
+        const username = args[2]; // New username argument
         if (!listFile) {
           console.error('Error: List file is required for download command');
+          printUsage(); // Call printUsage for context
           process.exit(1);
         }
-        const tweetModule = new TweetModule(listFile);
-        await tweetModule.processAllTweets();
+        if (!username) { // Validate username
+          console.error('Error: Username is required for download command');
+          printUsage(); // Call printUsage for context
+          process.exit(1);
+        }
+        // Instantiate TweetModule without listFile in constructor
+        const tweetModule = new TweetModule(); 
+        // Pass listFile and username to processAllTweets
+        const result = await tweetModule.processAllTweets(listFile, username); 
+        console.log(result); // Log the summary message
         break;
       }
       case 'image': {
